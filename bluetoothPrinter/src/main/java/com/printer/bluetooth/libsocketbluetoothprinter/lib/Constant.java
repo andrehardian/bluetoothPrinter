@@ -1,10 +1,10 @@
 package com.printer.bluetooth.libsocketbluetoothprinter.lib;
 
 public class Constant {
-//    intent request
+    //    intent request
     public static final int REQUEST_BLUETOOTH = 1;
 
-//    status bluetooth
+    //    status bluetooth
     public static final int BLUETOOTH_PRINTER = 1664;
     public static final int BLUETOOTH_PRINTER_2 = 7964;
     public static final int Bluetooth_INNER = 0;
@@ -18,4 +18,10 @@ public class Constant {
 
     //    kick drawe check in http://keyhut.com/popopen4.htm
     public static final byte[] KICK_DRAWER = new byte[]{27,7,11,55,7};
+
+    //    font
+    public static final byte[] NORMAL = new byte[]{0x1B,0x21,0x00};
+    public static final byte[] BOLD = new byte[]{0x1B,0x21,0x08};
+    public static final byte[] MEDIUM_BOLD = new byte[]{0x1B,0x21,0x20};
+    public static final byte[] LARGE = new byte[]{0x1B,0x21,0x30};
 }
