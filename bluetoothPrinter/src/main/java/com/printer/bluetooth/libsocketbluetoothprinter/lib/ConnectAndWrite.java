@@ -20,10 +20,10 @@ public class ConnectAndWrite {
         communicationManager = new CommunicationManager(context);
     }
 
-    protected void printSingle(BluetoothDevice selectedDevice, String message) {
+    public void printSingle(BluetoothDevice selectedDevice, String message) {
         communicationManager.print(selectedDevice, message.getBytes());
     }
-    protected void printMultiple(BluetoothDevice selectedDevice, ArrayList<byte[]> bytes) {
+    public void printMultiple(BluetoothDevice selectedDevice, ArrayList<byte[]> bytes) {
         communicationManager.printList(selectedDevice, bytes);
     }
 
