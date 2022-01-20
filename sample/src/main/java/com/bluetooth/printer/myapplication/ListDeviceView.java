@@ -1,7 +1,7 @@
 package com.bluetooth.printer.myapplication;
 
 import android.bluetooth.BluetoothDevice;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 

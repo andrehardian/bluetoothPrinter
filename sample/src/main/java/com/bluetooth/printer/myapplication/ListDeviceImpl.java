@@ -3,18 +3,14 @@ package com.bluetooth.printer.myapplication;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
-import com.printer.bluetooth.libsocketbluetoothprinter.R;
-import com.printer.bluetooth.libsocketbluetoothprinter.lib.BitmapBluetooth;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.printer.bluetooth.libsocketbluetoothprinter.lib.BluetoothDiscover;
 import com.printer.bluetooth.libsocketbluetoothprinter.lib.ConnectAndWrite;
 import com.printer.bluetooth.libsocketbluetoothprinter.lib.Constant;
 import com.printer.bluetooth.libsocketbluetoothprinter.lib.PermissionMarshmallow;
-import com.printer.bluetooth.libsocketbluetoothprinter.lib.StarBitmap;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -119,6 +115,22 @@ public class ListDeviceImpl implements ListDevicePres, RecyclerListener {
 
     private ArrayList<byte[]> makeList() {
         ArrayList<byte[]> list = new ArrayList<>();
+        list.add(("\n").getBytes());
+        list.add(("\n").getBytes());
+        list.add(("\n").getBytes());
+        list.add(("\n").getBytes());
+        list.add(("\n").getBytes());
+        list.add(("Test Print").getBytes());
+        list.add(("\n").getBytes());
+        list.add(("\n").getBytes());
+        list.add(("\n").getBytes());
+        list.add(("\n").getBytes());
+        return list;
+    }
+
+
+/*    private ArrayList<byte[]> makeList() {
+        ArrayList<byte[]> list = new ArrayList<>();
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.deden2);
         if (selectedDevice.getName() != null && selectedDevice.getName().toLowerCase().contains("star")) {
             list.add(new byte[]{0x1B, 0x2A, 33, (byte) 255, 3});
@@ -150,7 +162,7 @@ public class ListDeviceImpl implements ListDevicePres, RecyclerListener {
             list.add(("\n").getBytes());
         }
         return list;
-    }
+    }*/
 
 
     private void pair() {

@@ -2,11 +2,9 @@ package com.bluetooth.printer.myapplication;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
-import com.printer.bluetooth.libsocketbluetoothprinter.R;
 
 import java.util.ArrayList;
 

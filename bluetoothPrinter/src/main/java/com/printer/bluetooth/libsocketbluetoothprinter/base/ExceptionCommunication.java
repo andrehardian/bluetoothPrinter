@@ -1,7 +1,7 @@
 package com.printer.bluetooth.libsocketbluetoothprinter.base;
 
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import lombok.Getter;
 

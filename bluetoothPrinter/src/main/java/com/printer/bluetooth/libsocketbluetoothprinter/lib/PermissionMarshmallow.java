@@ -4,8 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -110,10 +110,6 @@ public class PermissionMarshmallow {
         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
     }
 
-    public void requestPermissionFineLoc() {
-        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                FINE_LOCATION_PERMISSION_REQUEST_CODE);
-    }
 
     public void bluetooth() {
         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.BLUETOOTH},
@@ -123,6 +119,10 @@ public class PermissionMarshmallow {
     public void bluetoothAdmin() {
         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.BLUETOOTH_ADMIN},
                 BLUETOOTH_ADMIN);
+    }
+    public void requestPermissionFineLoc() {
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                FINE_LOCATION_PERMISSION_REQUEST_CODE);
     }
 
     public void requestPermissionCoarseLoc() {

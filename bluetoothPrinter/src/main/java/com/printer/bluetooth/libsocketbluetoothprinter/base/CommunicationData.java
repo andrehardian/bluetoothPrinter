@@ -70,7 +70,6 @@ public class CommunicationData implements Observable.OnSubscribe<Object> {
                 for (byte[] bytes : requestData)
                     outputStream.write(bytes);
                 outputStream.flush();
-                subscriber.onCompleted();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,6 +88,7 @@ public class CommunicationData implements Observable.OnSubscribe<Object> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            subscriber.onCompleted();
         }
 
     }
