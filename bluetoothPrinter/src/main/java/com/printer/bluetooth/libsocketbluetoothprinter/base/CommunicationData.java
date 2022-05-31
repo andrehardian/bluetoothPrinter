@@ -3,6 +3,7 @@ package com.printer.bluetooth.libsocketbluetoothprinter.base;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,11 +20,11 @@ import rx.Subscriber;
  */
 
 public class CommunicationData implements Observable.OnSubscribe<Object> {
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     @Getter
     private final Context context;
     private final ArrayList<byte[]> requestData;
     private final BluetoothDevice selectedDevice;
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     public CommunicationData(Context context, ArrayList<byte[]> requestData, BluetoothDevice selectedDevice) {
         this.context = context;
@@ -65,16 +66,21 @@ public class CommunicationData implements Observable.OnSubscribe<Object> {
                 }
             }
             if (bluetoothSocket.isConnected()) {
-                outputStream = bluetoothSocket.getOutputStream();
                 inputStream = bluetoothSocket.getInputStream();
-                for (byte[] bytes : requestData)
+                outputStream = bluetoothSocket.getOutputStream();
+                for (byte[] bytes : requestData) {
                     outputStream.write(bytes);
-                outputStream.flush();
+                    outputStream.flush();
+                }
+            }
+            for (int pos = 0; pos < 200000; pos++) {
+                Log.i("delay","delay "+pos);
             }
         } catch (IOException e) {
             e.printStackTrace();
             makeException(subscriber, e);
         } finally {
+            subscriber.onCompleted();
             try {
                 if (bluetoothSocket != null) {
                     bluetoothSocket.close();
@@ -88,7 +94,6 @@ public class CommunicationData implements Observable.OnSubscribe<Object> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            subscriber.onCompleted();
         }
 
     }

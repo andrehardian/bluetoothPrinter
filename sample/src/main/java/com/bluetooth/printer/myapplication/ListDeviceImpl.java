@@ -3,14 +3,19 @@ package com.bluetooth.printer.myapplication;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.printer.bluetooth.libsocketbluetoothprinter.lib.BitmapBluetooth;
 import com.printer.bluetooth.libsocketbluetoothprinter.lib.BluetoothDiscover;
+import com.printer.bluetooth.libsocketbluetoothprinter.lib.BtImage;
 import com.printer.bluetooth.libsocketbluetoothprinter.lib.ConnectAndWrite;
 import com.printer.bluetooth.libsocketbluetoothprinter.lib.Constant;
 import com.printer.bluetooth.libsocketbluetoothprinter.lib.PermissionMarshmallow;
+import com.printer.bluetooth.libsocketbluetoothprinter.lib.StarBitmap;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -113,7 +118,7 @@ public class ListDeviceImpl implements ListDevicePres, RecyclerListener {
         }
     }
 
-    private ArrayList<byte[]> makeList() {
+/*    private ArrayList<byte[]> makeList() {
         ArrayList<byte[]> list = new ArrayList<>();
         list.add(("\n").getBytes());
         list.add(("\n").getBytes());
@@ -126,12 +131,13 @@ public class ListDeviceImpl implements ListDevicePres, RecyclerListener {
         list.add(("\n").getBytes());
         list.add(("\n").getBytes());
         return list;
-    }
+    }*/
 
 
-/*    private ArrayList<byte[]> makeList() {
+    private ArrayList<byte[]> makeList() {
         ArrayList<byte[]> list = new ArrayList<>();
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.deden2);
+        Bitmap bitmapw = BitmapFactory.decodeResource(context.getResources(), R.drawable.deden2);
+        Bitmap bitmap = Bitmap.createScaledBitmap(bitmapw, bitmapw.getWidth() / 5, bitmapw.getHeight() / 5, false);
         if (selectedDevice.getName() != null && selectedDevice.getName().toLowerCase().contains("star")) {
             list.add(new byte[]{0x1B, 0x2A, 33, (byte) 255, 3});
             if (bitmap != null)
@@ -143,26 +149,43 @@ public class ListDeviceImpl implements ListDevicePres, RecyclerListener {
             list.add(Constant.KICK_DRAWER);
 
         } else {
-            BitmapBluetooth bitmapBluetooth = new BitmapBluetooth();
-            bitmapBluetooth.initCanvas(384);
-            bitmapBluetooth.initPaint();
-            try {
-                bitmapBluetooth.canvas.drawBitmap(bitmapBluetooth.bitmapConvertMonochrome(bitmap)
-                        , 0, 0, null);
-                if (bitmapBluetooth.length < 0 + (float) bitmap.getHeight()) {
-                    bitmapBluetooth.length = 0 + (float) bitmap.getHeight();
-                }
-            } catch (Exception var5) {
-                var5.printStackTrace();
-            }
-            list.add(bitmapBluetooth.printDraw());
-            list.add(("ini test aja").getBytes());
-            list.add(("\n").getBytes());
-            list.add(("\n").getBytes());
-            list.add(("\n").getBytes());
+            list.addAll(cutBitmap(1,bitmap,384));
         }
         return list;
-    }*/
+    }
+
+    public ArrayList<byte[]> cutBitmap(int h, Bitmap bitmapPrint, int w) {
+        Bitmap bitmap = Bitmap.createScaledBitmap(bitmapPrint,
+                bitmapPrint.getWidth(), bitmapPrint.getHeight(), false);
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        boolean full = height % h == 0;
+        int n = height % h == 0 ? height / h : height / h + 1;
+        ArrayList<Bitmap> bitmaps = new ArrayList();
+        ArrayList<byte[]> bytes = new ArrayList();
+
+        for (int i = 0; i < n; ++i) {
+            Bitmap b;
+            if (full) {
+                b = Bitmap.createBitmap(bitmap, 0, i * h, width, h);
+            } else if (i == n - 1) {
+                b = Bitmap.createBitmap(bitmap, 0, i * h, width, height - i * h);
+            } else {
+                b = Bitmap.createBitmap(bitmap, 0, i * h, width, h);
+            }
+            bitmaps.add(b);
+        }
+
+        for (Bitmap bm : bitmaps) {
+            bytes.add(bitmapBluetoothDraw(w, bm));
+        }
+        return bytes;
+
+    }
+
+    private byte[] bitmapBluetoothDraw(int w, Bitmap bitmapPrint) {
+        return BtImage.decodeBitmap(bitmapPrint);
+    }
 
 
     private void pair() {
