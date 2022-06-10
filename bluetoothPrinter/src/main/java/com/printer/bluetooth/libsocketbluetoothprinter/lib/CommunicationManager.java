@@ -75,14 +75,14 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
         subscribe(new CommunicationData(context, message, bluetoothDevice));
     }
 
-    public void print(BluetoothDevice bluetoothDevice, byte[] message, int delay) {
-        subscribe(new CommunicationData(context, message, bluetoothDevice).setDelay(delay));
-    }
 
     public void printList(BluetoothDevice bluetoothDevice, ArrayList<byte[]> messages) {
         subscribe(new CommunicationData(context, messages, bluetoothDevice));
     }
 
+    public void print(BluetoothDevice bluetoothDevice, byte[] message, int delay) {
+        subscribe(new CommunicationData(context, message, bluetoothDevice).setDelay(delay));
+    }
     public void printList(BluetoothDevice bluetoothDevice, ArrayList<byte[]> messages, int delay) {
         subscribe(new CommunicationData(context, messages, bluetoothDevice).setDelay(delay));
     }

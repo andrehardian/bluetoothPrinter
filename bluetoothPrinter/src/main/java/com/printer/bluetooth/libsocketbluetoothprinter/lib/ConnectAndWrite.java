@@ -16,15 +16,25 @@ public class ConnectAndWrite {
     protected CommunicationManager communicationManager;
 
     @AfterInject
-    protected void init(){
+    protected void init() {
         communicationManager = new CommunicationManager(context);
     }
 
     public void printSingle(BluetoothDevice selectedDevice, String message) {
         communicationManager.print(selectedDevice, message.getBytes());
     }
+
     public void printMultiple(BluetoothDevice selectedDevice, ArrayList<byte[]> bytes) {
         communicationManager.printList(selectedDevice, bytes);
     }
+
+    public void printSingle(BluetoothDevice selectedDevice, String message, int delay) {
+        communicationManager.print(selectedDevice, message.getBytes(), delay);
+    }
+
+    public void printMultiple(BluetoothDevice selectedDevice, ArrayList<byte[]> bytes, int delay) {
+        communicationManager.printList(selectedDevice, bytes, delay);
+    }
+
 
 }
