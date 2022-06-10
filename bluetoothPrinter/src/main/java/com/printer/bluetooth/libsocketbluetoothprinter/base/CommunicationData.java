@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.Setter;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -25,11 +26,17 @@ public class CommunicationData implements Observable.OnSubscribe<Object> {
     private final Context context;
     private final ArrayList<byte[]> requestData;
     private final BluetoothDevice selectedDevice;
+    private int delay = 200000;
 
     public CommunicationData(Context context, ArrayList<byte[]> requestData, BluetoothDevice selectedDevice) {
         this.context = context;
         this.requestData = requestData;
         this.selectedDevice = selectedDevice;
+    }
+
+    public CommunicationData setDelay(int delay){
+        this.delay = delay;
+        return this;
     }
 
     public CommunicationData(Context context, byte[] requestData, BluetoothDevice selectedDevice) {
@@ -73,7 +80,7 @@ public class CommunicationData implements Observable.OnSubscribe<Object> {
                     outputStream.flush();
                 }
             }
-            for (int pos = 0; pos < 200000; pos++) {
+            for (int pos = 0; pos < delay; pos++) {
                 Log.i("delay","delay "+pos);
             }
         } catch (IOException e) {

@@ -20,6 +20,8 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
     protected final Context context;
     protected DialogManager dialogManager;
     private ProgressDialog progressDialog;
+    private ListenerCommunication listener;
+    private int totalRequest;
 
     public CommunicationManager(Context context) {
         this.context = context;
@@ -39,9 +41,6 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
             totalRequest -= 1;
 
     }
-
-    private ListenerCommunication listener;
-    private int totalRequest;
 
     @Override
     public void success(Object o) {
@@ -76,8 +75,16 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
         subscribe(new CommunicationData(context, message, bluetoothDevice));
     }
 
+    public void print(BluetoothDevice bluetoothDevice, byte[] message, int delay) {
+        subscribe(new CommunicationData(context, message, bluetoothDevice).setDelay(delay));
+    }
+
     public void printList(BluetoothDevice bluetoothDevice, ArrayList<byte[]> messages) {
         subscribe(new CommunicationData(context, messages, bluetoothDevice));
+    }
+
+    public void printList(BluetoothDevice bluetoothDevice, ArrayList<byte[]> messages, int delay) {
+        subscribe(new CommunicationData(context, messages, bluetoothDevice).setDelay(delay));
     }
 
 }
