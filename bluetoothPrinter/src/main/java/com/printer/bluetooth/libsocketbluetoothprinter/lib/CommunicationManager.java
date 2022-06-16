@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.printer.bluetooth.libsocketbluetoothprinter.base.CallBackSubscriber;
 import com.printer.bluetooth.libsocketbluetoothprinter.base.CommunicationData;
 import com.printer.bluetooth.libsocketbluetoothprinter.base.ExceptionCommunication;
@@ -12,6 +14,7 @@ import com.printer.bluetooth.libsocketbluetoothprinter.base.SubScriberCommunicat
 
 import java.util.ArrayList;
 
+import lombok.Setter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -22,6 +25,8 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
     private ProgressDialog progressDialog;
     private ListenerCommunication listener;
     private int totalRequest;
+    @Setter
+    private MutableLiveData<Boolean> successListener;
 
     public CommunicationManager(Context context) {
         this.context = context;
@@ -33,6 +38,8 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
         if (progressDialog != null && progressDialog.isShowing() && totalRequest == 1) {
             try {
                 progressDialog.dismiss();
+                if (successListener != null)
+                    successListener.postValue(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -83,6 +90,7 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
     public void print(BluetoothDevice bluetoothDevice, byte[] message, int delay) {
         subscribe(new CommunicationData(context, message, bluetoothDevice).setDelay(delay));
     }
+
     public void printList(BluetoothDevice bluetoothDevice, ArrayList<byte[]> messages, int delay) {
         subscribe(new CommunicationData(context, messages, bluetoothDevice).setDelay(delay));
     }

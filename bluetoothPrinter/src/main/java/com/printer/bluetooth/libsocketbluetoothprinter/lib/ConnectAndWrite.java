@@ -3,6 +3,8 @@ package com.printer.bluetooth.libsocketbluetoothprinter.lib;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 
+import androidx.lifecycle.MutableLiveData;
+
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -18,6 +20,10 @@ public class ConnectAndWrite {
     @AfterInject
     protected void init() {
         communicationManager = new CommunicationManager(context);
+    }
+
+    public void setListener(MutableLiveData<Boolean> successListener){
+        communicationManager.setSuccessListener(successListener);
     }
 
     public void printSingle(BluetoothDevice selectedDevice, String message) {
