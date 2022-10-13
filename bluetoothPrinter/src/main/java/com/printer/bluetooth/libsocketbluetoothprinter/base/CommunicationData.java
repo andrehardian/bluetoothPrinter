@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import lombok.Getter;
-import lombok.Setter;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -34,11 +33,6 @@ public class CommunicationData implements Observable.OnSubscribe<Object> {
         this.selectedDevice = selectedDevice;
     }
 
-    public CommunicationData setDelay(int delay){
-        this.delay = delay;
-        return this;
-    }
-
     public CommunicationData(Context context, byte[] requestData, BluetoothDevice selectedDevice) {
         this.context = context;
         this.requestData = new ArrayList<>();
@@ -46,6 +40,10 @@ public class CommunicationData implements Observable.OnSubscribe<Object> {
         this.selectedDevice = selectedDevice;
     }
 
+    public CommunicationData setDelay(int delay) {
+        this.delay = delay;
+        return this;
+    }
 
     private void makeException(Subscriber<? super Object> subscriber, IOException e) {
         ExceptionCommunication exceptionCommunication = new ExceptionCommunication(e.getMessage(),
@@ -79,9 +77,12 @@ public class CommunicationData implements Observable.OnSubscribe<Object> {
                     outputStream.write(bytes);
                     outputStream.flush();
                 }
-            }
-            for (int pos = 0; pos < delay; pos++) {
-                Log.i("delay","delay "+pos);
+                for (int pos = 0; pos < delay; pos++) {
+                    Log.i("delay", "delay " + pos);
+                }
+                subscriber.onNext(selectedDevice);
+            }else {
+                makeException(subscriber,new IOException("printer not connected"));
             }
         } catch (IOException e) {
             e.printStackTrace();

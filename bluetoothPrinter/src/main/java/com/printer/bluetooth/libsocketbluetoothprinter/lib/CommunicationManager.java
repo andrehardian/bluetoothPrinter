@@ -26,7 +26,9 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
     private ListenerCommunication listener;
     private int totalRequest;
     @Setter
-    private MutableLiveData<Boolean> successListener;
+    private MutableLiveData<Boolean> finishListener;
+    @Setter
+    private SuccessPrintListener successListener;
 
     public CommunicationManager(Context context) {
         this.context = context;
@@ -38,8 +40,8 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
         if (progressDialog != null && progressDialog.isShowing() && totalRequest == 1) {
             try {
                 progressDialog.dismiss();
-                if (successListener != null)
-                    successListener.postValue(true);
+                if (finishListener != null)
+                    finishListener.postValue(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -51,12 +53,16 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
 
     @Override
     public void success(Object o) {
-
+        if (successListener!=null){
+            successListener.successPrint((BluetoothDevice) o);
+        }
     }
 
     @Override
     public void failCommunication(ExceptionCommunication exceptionCommunication) {
         dialogManager.errorDialog(exceptionCommunication.getMessage());
+        if (finishListener != null)
+            finishListener.postValue(true);
     }
 
     protected void subscribe(CommunicationData communicationData) {

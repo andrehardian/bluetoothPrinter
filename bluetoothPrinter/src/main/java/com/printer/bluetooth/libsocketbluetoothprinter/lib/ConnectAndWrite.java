@@ -23,6 +23,9 @@ public class ConnectAndWrite {
     }
 
     public void setListener(MutableLiveData<Boolean> successListener){
+        communicationManager.setFinishListener(successListener);
+    }
+    public void setSuccessListener(SuccessPrintListener successListener){
         communicationManager.setSuccessListener(successListener);
     }
 
@@ -41,6 +44,7 @@ public class ConnectAndWrite {
     public void printMultiple(BluetoothDevice selectedDevice, ArrayList<byte[]> bytes, int delay) {
         communicationManager.printList(selectedDevice, bytes, delay);
     }
+
 
 
 }
