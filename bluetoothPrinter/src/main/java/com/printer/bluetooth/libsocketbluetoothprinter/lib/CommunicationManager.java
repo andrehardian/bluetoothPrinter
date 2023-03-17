@@ -60,7 +60,9 @@ public class CommunicationManager implements CallBackSubscriber, ListenerCommuni
 
     @Override
     public void failCommunication(ExceptionCommunication exceptionCommunication) {
-        dialogManager.errorDialog(exceptionCommunication.getMessage());
+        String message = exceptionCommunication.getMessage();
+        message = message.equalsIgnoreCase("read failed, socket might closed or timeout, read ret: -1")?"Pastikan printer dalam kondisi standby":message;
+        dialogManager.errorDialog(message);
         if (finishListener != null)
             finishListener.postValue(true);
     }
